@@ -10,6 +10,7 @@ gem 'sqlite3'
 gem 'twilio-ruby'
 gem "rake"
 gem 'sinatra-contrib'
+gem 'pg'
 
 # to avoid installing postgres use 
 # bundle install --without production
