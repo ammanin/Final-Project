@@ -3,9 +3,10 @@ source 'https://rubygems.org'
 gem 'sinatra'
 gem 'json'
 gem 'shotgun'
-gem "rake"
 gem 'activerecord'
 gem 'sinatra-activerecord' # excellent gem that ports ActiveRecord for Sinatra
+gem 'twilio-ruby'
+gem "rake"
 
 
 # to avoid installing postgres use 
