@@ -14,7 +14,7 @@ configure :development do
   Dotenv.load
 end
 
-set :database, "sqlite3:db/smsilate_database.db"
+#set :database, "sqlite3:db/smsilate_database.db"
 require_relative './models/user'
 require_relative './models/dailyword'
 

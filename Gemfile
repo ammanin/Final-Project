@@ -6,7 +6,6 @@ gem 'shotgun'
 gem 'activesupport'
 gem 'activerecord'
 gem 'sinatra-activerecord' # excellent gem that ports ActiveRecord for Sinatra
-gem 'sqlite3'
 gem 'twilio-ruby'
 gem "rake"
 gem 'sinatra-contrib'
@@ -22,4 +21,5 @@ end
 
 group :production do
   gem 'pg'
+  gem 'sqlite3'
 end
