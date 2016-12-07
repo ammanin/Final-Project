@@ -6,10 +6,10 @@ gem 'shotgun'
 gem 'activesupport'
 gem 'activerecord'
 gem 'sinatra-activerecord' # excellent gem that ports ActiveRecord for Sinatra
-gem 'sinatra-contrib'
+gem 'sqlite3'
 gem 'twilio-ruby'
 gem "rake"
-
+gem 'sinatra-contrib'
 
 # to avoid installing postgres use 
 # bundle install --without production
