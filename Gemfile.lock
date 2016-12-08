@@ -17,8 +17,6 @@ GEM
     builder (3.2.2)
     concurrent-ruby (1.0.2)
     dotenv (2.1.1)
-    haml (4.0.7)
-      tilt
     i18n (0.7.0)
     json (1.8.3)
     jwt (1.5.6)
@@ -66,10 +64,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   activesupport
-  builder
-  bundler
   dotenv
-  haml
   json
   pg
   rake
