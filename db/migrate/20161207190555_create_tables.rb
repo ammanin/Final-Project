@@ -1,7 +1,6 @@
 class CreateTables < ActiveRecord::Migration[5.0]
   def change
      create_table :users do |t|
-     t.index :ID
 	 t.integer :Phone
 	 t.string :Name
 	 t.integer :Points
@@ -10,7 +9,6 @@ class CreateTables < ActiveRecord::Migration[5.0]
 	 end
 	 
      create_table :translations do |t|
-     t.index :ID
 	 t.integer :User_ID
 	 t.string :Languages	 
 	 t.string :Phrase
@@ -19,7 +17,6 @@ class CreateTables < ActiveRecord::Migration[5.0]
 	 end
 	 
      create_table :dailywords do |t|
-     t.index :ID
 	 t.integer :User_ID
 	 t.string :Languages	 
 	 t.string :Word
