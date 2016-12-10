@@ -11,7 +11,6 @@ gem "rake"
 gem 'sinatra-contrib'
 gem 'pg'
 gem 'alexa_skills_ruby'
-gem 'httparty'
 gem 'haml'
 gem 'iso8601'
 

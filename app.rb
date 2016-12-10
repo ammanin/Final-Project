@@ -4,7 +4,6 @@ require 'sinatra/activerecord'
 require 'twilio-ruby'
 require 'alexa_skills_ruby'
 require 'rake'
-require 'httparty'
 require 'haml'
 require 'iso8601'
 
