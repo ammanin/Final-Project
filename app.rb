@@ -99,15 +99,15 @@ end
 # ----------------------------------------------------------------------
 
 
-=begin
-get "/send_sms" do
-	client.account.messages.create(
-	:from => ENV["TWILIO_NUMBER"],
-	:to => "+14129548714",
-	:body => "Knock Knock!"
-	)
-	"Send Message"
-end
+
+#get "/send_sms" do
+#	client.account.messages.create(
+#	:from => ENV["TWILIO_NUMBER"],
+#	:to => "+14129548714",
+#	:body => "Knock Knock!"
+#	)
+#	"Send Message"
+#end
 
 require_relative './models/status_update'
 
@@ -275,4 +275,3 @@ def get_message_for status, duration
   message
   
 end
-=end
