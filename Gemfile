@@ -11,6 +11,10 @@ gem "rake"
 gem 'sinatra-contrib'
 gem 'pg'
 gem 'alexa_skills_ruby'
+require 'httparty'
+require 'haml'
+require 'iso8601'
+
 
 # to avoid installing postgres use 
 # bundle install --without production
