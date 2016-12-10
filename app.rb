@@ -48,17 +48,17 @@ get "/" do
 end
 
 
-get '/incoming_sms' do
+get '/send_sms' do
 	
-  session["last_context"] ||= nil
+ # session["last_context"] ||= nil
   
   sender = params[:From] || ""
   body = params[:Body] || ""
   body = body.downcase.strip
-  result = translate.list_translations(body,'es', source: 'en')
-  message = result.translations.first.translated_text
+  result = translate.list_translations("Here we are",'es', source: 'en')
+  #message = result.translations.first.translated_text
  twiml = Twilio::TwiML::Response.new do |r|
-   r.Message message
+   r.Message result
  end
  twiml.text
 	
