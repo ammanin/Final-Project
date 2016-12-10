@@ -7,6 +7,8 @@ require 'rake'
 require 'haml'
 require 'iso8601'
 require 'google/apis/translate_v2'
+require 'httparty'
+
 
 # ----------------------------------------------------------------------
 
@@ -34,8 +36,8 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 enable :sessions
 
 #translation API
-translate = Google::Apis::TranslateV2::TranslateService.new ENV["GOOGLE_TRANSLATE_ID"]
-#translate.key = ENV["GOOGLE_TRANSLATE_ID"]
+translate = Google::Apis::TranslateV2::TranslateService.new 
+translate.key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
 #puts result.translations.first.translated_text
 
@@ -44,8 +46,37 @@ translate = Google::Apis::TranslateV2::TranslateService.new ENV["GOOGLE_TRANSLAT
 # ----------------------------------------------------------------------
 
 get "/" do
-  401
+
+	# https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + sourceLang + "&tl=" + targetLang + "&dt=t&q=" + encodeURI(sourceText);
+
+	#https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=it&dt=t&q=food"
+
+	
+  result = translate.list_translations("Here we are",'es', source: 'en')
+
+  puts "Translation is : "
+  puts   result.translations.first.translated_text
+
+  result.translations.first.translated_text
+
+
+  #401
 end
+
+get "/:word/in/:lang" do 
+
+  from_lang = "en"
+  to_lang = params[:lang]
+  word = params[:word]
+  translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + from_lang + "&tl=" + to_lang + "&dt=t&q=" + word;
+  
+  response = HTTParty.get translate_url
+    puts response.to_s
+
+	response.to_s
+  
+
+end 
 
 
 get '/send_sms' do
