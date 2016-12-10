@@ -34,8 +34,8 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 enable :sessions
 
 #translation API
-translate = Google::Apis::TranslateV2::TranslateService.new
-translate.key = ENV["GOOGLE_TRANSLATE_ID"]
+translate = Google::Apis::TranslateV2::TranslateService.new ENV["GOOGLE_TRANSLATE_ID"]
+#translate.key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
 #puts result.translations.first.translated_text
 
@@ -55,7 +55,8 @@ get '/incoming_sms' do
   sender = params[:From] || ""
   body = params[:Body] || ""
   body = body.downcase.strip
-  message = translate.list_translations(body,'es', source: 'en')
+  result = translate.list_translations(body,'es', source: 'en')
+  message = result.translations.first.translated_text
  twiml = Twilio::TwiML::Response.new do |r|
    r.Message message
  end
