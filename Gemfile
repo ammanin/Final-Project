@@ -10,6 +10,7 @@ gem 'twilio-ruby'
 gem "rake"
 gem 'sinatra-contrib'
 gem 'pg'
+gem 'alexa_skills_ruby'
 
 # to avoid installing postgres use 
 # bundle install --without production
