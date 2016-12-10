@@ -52,9 +52,9 @@ get '/send_sms' do
 	
  # session["last_context"] ||= nil
   
-  sender = params[:From] || ""
-  body = params[:Body] || ""
-  body = body.downcase.strip
+  #sender = params[:From] || ""
+  #body = params[:Body] || ""
+  #body = body.downcase.strip
   result = translate.list_translations("Here we are",'es', source: 'en')
   #message = result.translations.first.translated_text
  twiml = Twilio::TwiML::Response.new do |r|
