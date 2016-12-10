@@ -6,6 +6,7 @@ require 'alexa_skills_ruby'
 require 'rake'
 require 'haml'
 require 'iso8601'
+require 'google/apis/translate_v2'
 
 # ----------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ configure :development do
   require 'dotenv'
   Dotenv.load
 end
-=begin
+
 #set :database, "sqlite3:db/smsilate_database.db"
 require_relative './models/user'
 require_relative './models/dailyword'
@@ -32,6 +33,12 @@ enable :sessions
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 enable :sessions
 
+#translation API
+translate = Google::Apis::TranslateV2::TranslateService.new
+translate.key = ENV["GOOGLE_TRANSLATE_ID"]
+#result = translate.list_translations('Hello world!', 'es', source: 'en')
+#puts result.translations.first.translated_text
+
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
@@ -39,6 +46,28 @@ enable :sessions
 get "/" do
   401
 end
+
+
+get '/incoming_sms' do
+	
+  session["last_context"] ||= nil
+  
+  sender = params[:From] || ""
+  body = params[:Body] || ""
+  body = body.downcase.strip
+  message = translate.list_translations(body,'es', source: 'en')
+ twiml = Twilio::TwiML::Response.new do |r|
+   r.Message message
+ end
+ twiml.text
+	
+end
+# ----------------------------------------------------------------------
+#     ERRORS
+# ----------------------------------------------------------------------
+
+
+=begin
 get "/send_sms" do
 	client.account.messages.create(
 	:from => ENV["TWILIO_NUMBER"],
@@ -47,28 +76,6 @@ get "/send_sms" do
 	)
 	"Send Message"
 end
-# ----------------------------------------------------------------------
-#     ERRORS
-# ----------------------------------------------------------------------
-
-
-error 401 do 
-  "Not allowed!!!"
-end
-
-
-# ----------------------------------------------------------------------
-#   METHODS
-#   Add any custom methods below
-# ----------------------------------------------------------------------
-
-private
-
-# for example 
-def square_of int
-  int * int
-end
-=end
 
 require_relative './models/status_update'
 
@@ -236,3 +243,4 @@ def get_message_for status, duration
   message
   
 end
+=end
