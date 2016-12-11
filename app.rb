@@ -9,6 +9,7 @@ require 'iso8601'
 require 'google/apis/translate_v2'
 require 'httparty'
 require 'easy_translate'
+require 'microsoft_translate'
 
 # ----------------------------------------------------------------------
 
@@ -37,10 +38,12 @@ enable :sessions
 
 #translation API
 #translate = Google::Apis::TranslateV2::TranslateService.new 
-EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
+#EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
 #puts result.translations.first.translated_text
-
+translator = MicrosoftTranslator::Client.new ENV["MICROSOFT_TRANSLATE_ID"], ENV["MICROSOFT_TRANSLATE_TOKEN"]
+#('your_client_id', 'your_client_secret')
+#Translation
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
@@ -144,8 +147,9 @@ end
 =end
 
 get "/" do 
-
-  EasyTranslate.translate('hello world', :from => 'en', :to => 'es')
+ spanish = "what time is it"
+ translator.translate(spanish,"en","es","text/plain").to_s
+#  message = EasyTranslate.translate('hello world', :from => 'en', :to => 'es')
 
 end 
 
@@ -156,10 +160,7 @@ end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
-get '/' do
-  
-end
-
+=begin
 post '/' do
   content_type :json
 
@@ -173,7 +174,7 @@ post '/' do
   end
 
 end
-
+=end
 # ----------------------------------------------------------------------
 #     ERRORS
 # ----------------------------------------------------------------------

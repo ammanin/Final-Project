@@ -16,6 +16,7 @@ gem 'iso8601'
 gem 'google-api-client', '~> 0.9'
 gem 'easy_translate'
 gem 'httparty'
+gem 'microsoft_translate'
 
 # to avoid installing postgres use 
 # bundle install --without production
