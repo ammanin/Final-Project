@@ -34,7 +34,7 @@ enable :sessions
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
 #translation API
-#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 #translate = Google::Apis::TranslateV2::TranslateService.new 
 #EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
