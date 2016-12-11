@@ -147,12 +147,8 @@ get "/:word/in/:lang" do
   from_lang = "en"
   to_lang = params[:lang]
   word = params[:word]
- #translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + from_lang + "&tl=" + to_lang + "&dt=t&q=" + word;
-  
-  response = HTTParty.get("https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + from_lang + "&tl=" + "fr" + "&dt=t&q=" + word)
-    puts response.to_s
-    response.to_s
-  
+  EasyTranslate.translate("hello world", :to => "es")
+
 end 
 
 
