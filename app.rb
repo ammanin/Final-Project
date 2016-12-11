@@ -147,7 +147,7 @@ end
 =end
 
 get "/" do 
-	@token
+	get_access_token
 	#headers = {:Authorization=> "Bearer #{token}"}
 	#HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
 	#spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
@@ -189,7 +189,7 @@ def get_access_token
     @token = { :status => exception.message }
   end
 
-  @token
+  return token
 end
 
 
