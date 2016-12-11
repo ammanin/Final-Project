@@ -6,10 +6,8 @@ require 'alexa_skills_ruby'
 require 'rake'
 require 'haml'
 require 'iso8601'
-require 'google/apis/translate_v2'
-require 'httparty'
-require 'easy_translate'
-require 'microsoft_translator'
+require 'ruby_gem'
+require 'bing_translator'
 
 # ----------------------------------------------------------------------
 
@@ -37,8 +35,9 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 enable :sessions
 
 #translation API
+translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 #translate = Google::Apis::TranslateV2::TranslateService.new 
-EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
+#EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
 #puts result.translations.first.translated_text
 #translator = MicrosoftTranslator::Client.new ENV["MICROSOFT_TRANSLATE_ID"], ENV["MICROSOFT_TRANSLATE_TOKEN"]
@@ -147,8 +146,7 @@ end
 =end
 
 get "/" do 
-	EasyTranslate.translate('hello world', :from => 'en', :to => 'es')
-
+	spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
 end 
 
 
