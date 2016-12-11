@@ -32,12 +32,11 @@ require_relative './models/dailyword'
 enable :sessions
 
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-
+Authorization = "Bearer #{get_access_token['access_token']}"
 #translation API
 #translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
-before do
-header 'Authorization' => "Bearer #{get_access_token['access_token']}"
-end
+
+
 #translate = Google::Apis::TranslateV2::TranslateService.new 
 #EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
