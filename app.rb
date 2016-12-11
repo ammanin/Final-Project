@@ -127,12 +127,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation = (request.intent.slots["translation"] )
 	language = (request.intent.slots["language"] )
-    translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "fr" + "&dt=t&q=" + translation;
+    #translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "fr" + "&dt=t&q=" + translation;
   
-	response = HTTParty.get translate_url
+	#response = HTTParty.get translate_url
     #puts response.to_s
     #response.to_s
-	response.set_output_speech_text(response)  
+	response.set_output_speech_text("Okay")  
 	
 	
     #response.set_simple_card("title", "content")
