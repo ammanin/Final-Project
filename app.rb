@@ -145,8 +145,8 @@ end
 =end
 
 get "/" do 
+	translator.balance
 	#spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
-	"hello"
 end 
 
 
