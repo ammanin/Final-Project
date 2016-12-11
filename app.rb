@@ -71,9 +71,9 @@ enable :sessions
 #     See https://github.com/DanElbert/alexa_skills_ruby
 # ----------------------------------------------------------------------
 
-
-class CustomHandler < AlexaSkillsRuby::Handler
 =begin
+class CustomHandler < AlexaSkillsRuby::Handler
+
   on_intent("GetCurrentStatus") do
     #slots = request.intent.slots
     
@@ -121,7 +121,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     logger.info 'Here processed'
     update_status "here"
   end
-=end
+
   on_intent("Translate") do
     slots = request.intent.slots
     puts slots.to_s
@@ -141,7 +141,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
 
 end
-=begin
+=end
+
 get "/:word/in/:lang" do 
   from_lang = "en"
   to_lang = params[:lang]
@@ -153,7 +154,7 @@ get "/:word/in/:lang" do
     response.to_s
   
 end 
-=end
+
 
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
