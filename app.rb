@@ -143,11 +143,11 @@ class CustomHandler < AlexaSkillsRuby::Handler
 end
 =end
 
-get "/:word/in/:lang" do 
+get "/" do 
   from_lang = "en"
   to_lang = params[:lang]
   word = params[:word]
-  EasyTranslate.translate("hello world", :to => "es")
+  EasyTranslate.translate('hello world', :from => 'en', :to => 'es')
 
 end 
 
