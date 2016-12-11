@@ -14,7 +14,7 @@ gem 'alexa_skills_ruby'
 gem 'haml'
 gem 'iso8601'
 gem 'google-api-client', '~> 0.9'
-
+gem 'easy_translate'
 gem 'httparty'
 
 # to avoid installing postgres use 

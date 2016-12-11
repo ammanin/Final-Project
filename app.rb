@@ -8,7 +8,7 @@ require 'haml'
 require 'iso8601'
 require 'google/apis/translate_v2'
 require 'httparty'
-
+require 'easy_translate'
 
 # ----------------------------------------------------------------------
 
@@ -36,8 +36,8 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 enable :sessions
 
 #translation API
-translate = Google::Apis::TranslateV2::TranslateService.new 
-translate.key = ENV["GOOGLE_TRANSLATE_ID"]
+#translate = Google::Apis::TranslateV2::TranslateService.new 
+EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
 #puts result.translations.first.translated_text
 
@@ -127,12 +127,13 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
+	message = EasyTranslate.translate([translation_txt, :to => :language_input])
     #translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "fr" + "&dt=t&q=" + URI.escape(translation)
   
 	#response = HTTParty.get translate_url
     #puts response.to_s
     #response.to_s
-	response.set_output_speech_text("#{translation_txt} in #{language_input} is Wo bist du" )  
+	response.set_output_speech_text("#{translation_txt} in #{language_input} is #{message}" )  
 	
 	
     #response.set_simple_card("title", "content")
