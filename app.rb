@@ -9,7 +9,7 @@ require 'iso8601'
 require 'google/apis/translate_v2'
 require 'httparty'
 require 'easy_translate'
-require 'microsoft_translate'
+require 'microsoft_translator'
 
 # ----------------------------------------------------------------------
 
