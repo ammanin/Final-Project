@@ -127,7 +127,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation = (request.intent.slots["translation"] )
 	language = (request.intent.slots["language"] )
-    response.set_output_speech_text("you got it")  
+    response.set_output_speech_text("So you want met to translate #{translation} in #{language}")  
 	
 	
     #response.set_simple_card("title", "content")
