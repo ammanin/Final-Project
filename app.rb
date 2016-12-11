@@ -144,9 +144,7 @@ end
 =end
 
 get "/" do 
-  from_lang = "en"
-  to_lang = params[:lang]
-  word = params[:word]
+
   EasyTranslate.translate('hello world', :from => 'en', :to => 'es')
 
 end 
