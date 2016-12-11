@@ -181,15 +181,15 @@ end
 
 def get_access_token
   begin
-    @translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
-    token = translator.get_access_token
-    token[:status] = 'success'
+    translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
+    @token = translator.get_access_token
+    @token[:status] = 'success'
   rescue Exception => exception
     #YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
-    token = { :status => exception.message }
+    @token = { :status => exception.message }
   end
 
-  token
+  @token
 end
 
 
