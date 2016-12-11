@@ -127,7 +127,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation = (request.intent.slots["translation"] )
 	language = (request.intent.slots["language"] )
-    response.set_output_speech_text("So you want met to translate #{translation} in #{language}")  
+    translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + language + "&dt=t&q=" + translation;
+  
+	response = HTTParty.get translate_url
+    puts response.to_s
+    #response.to_s
+	response.set_output_speech_text(response)  
 	
 	
     #response.set_simple_card("title", "content")
@@ -135,6 +140,19 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
 
 end
+
+get "/:word/in/:lang" do 
+  from_lang = "en"
+  to_lang = params[:lang]
+  word = params[:word]
+  translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + from_lang + "&tl=" + to_lang + "&dt=t&q=" + word;
+  
+  response = HTTParty.get translate_url
+    puts response.to_s
+    response.to_s
+  
+end 
+
 
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
