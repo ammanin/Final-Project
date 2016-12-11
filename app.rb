@@ -8,6 +8,7 @@ require 'haml'
 require 'iso8601'
 require 'ruby_gem'
 require 'bing_translator'
+require 'httparty'
 
 # ----------------------------------------------------------------------
 
@@ -32,9 +33,8 @@ require_relative './models/dailyword'
 enable :sessions
 
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
-Authorization = "Bearer #{get_access_token['access_token']}"
 #translation API
-#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 
 
 #translate = Google::Apis::TranslateV2::TranslateService.new 
@@ -147,6 +147,9 @@ end
 =end
 
 get "/" do 
+	token = get_access_token
+	headers = {:Authorization=> "Bearer #{token}"}
+	HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
 	spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
 end 
 
@@ -178,15 +181,15 @@ end
 
 def get_access_token
   begin
-    translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
-    @token = translator.get_access_token
-    @token[:status] = 'success'
+    @translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
+    token = translator.get_access_token
+    token[:status] = 'success'
   rescue Exception => exception
-    YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
-    @token = { :status => exception.message }
+    #YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
+    token = { :status => exception.message }
   end
 
-  @token
+  token
 end
 
 
