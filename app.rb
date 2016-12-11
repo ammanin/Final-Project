@@ -34,8 +34,19 @@ enable :sessions
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
 #translation API
-translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+def get_access_token
+  begin
+    translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
+    token = translator.get_access_token
+    token[:status] = 'success'
+  rescue Exception => exception
+    YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
+    token = { :status => exception.message }
+  end
 
+  token
+end
 #translate = Google::Apis::TranslateV2::TranslateService.new 
 #EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
 #result = translate.list_translations('Hello world!', 'es', source: 'en')
@@ -146,7 +157,6 @@ end
 =end
 
 get "/" do 
-	get_access_token
 	spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
 end 
 
@@ -190,17 +200,6 @@ end
 
 # get_access_token example
 # Useful, e.g., for using bing_translator in a web application frontend
-def get_access_token
-  begin
-    translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
-    token = translator.get_access_token
-    token[:status] = 'success'
-  rescue Exception => exception
-    YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
-    token = { :status => exception.message }
-  end
 
-  token
-end
 private
 
