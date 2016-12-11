@@ -146,6 +146,7 @@ end
 =end
 
 get "/" do 
+	get_access_token
 	spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
 end 
 
