@@ -35,17 +35,8 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 
 #translation API
 #translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
-def get_access_token
-  begin
-    translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"],false, ENV["AZURE_ACCOUNT_KEY"])
-    token = translator.get_access_token
-    token[:status] = 'success'
-  rescue Exception => exception
-    YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
-    token = { :status => exception.message }
-  end
-
-  token
+before do
+header 'Authorization' => "Bearer #{get_access_token['access_token']}"
 end
 #translate = Google::Apis::TranslateV2::TranslateService.new 
 #EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
