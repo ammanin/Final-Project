@@ -132,7 +132,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
 	#response = HTTParty.get translate_url
     #puts response.to_s
     #response.to_s
-	response.set_output_speech_text("okay")  
+	response.set_output_speech_text("Do you want me to traslate #{translation} to #{language} )  
 	
 	
     #response.set_simple_card("title", "content")
