@@ -148,8 +148,7 @@ end
 =end
 
 get "/" do 
-	@token
-	#spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
+	spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
 end 
 
 
