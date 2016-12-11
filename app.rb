@@ -148,8 +148,8 @@ end
 
 get "/" do 
 	token = get_access_token
-	headers = {:Authorization=> "Bearer #{token}"}
-	HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
+	#headers = {:Authorization=> "Bearer #{token}"}
+	#HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
 	#spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
 end 
 
@@ -185,7 +185,7 @@ def get_access_token
     @token = translator.get_access_token
     @token[:status] = 'success'
   rescue Exception => exception
-    #YourApp.error_logger.error("Bing Translator: \"#{exception.message}\"")
+    app.error_logger.error("Bing Translator: \"#{exception.message}\"")
     @token = { :status => exception.message }
   end
 
