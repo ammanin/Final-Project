@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   "hello"
+   translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
