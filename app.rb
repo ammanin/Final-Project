@@ -151,7 +151,7 @@ end
 
 get '/' do
 	
-	" you get #{trans_met("hello")}"
+	" you get #{trans_met("where are you from")}"
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
@@ -177,7 +177,12 @@ end
 private
 
 
-def trans_met transtxt, langinput
+def trans_met transtxt
   translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+  langinput = "de"
   translator.translate(transtxt, :from => 'en', :to => langinput)
+end
+
+def multip int1, int2
+	int1 + int2
 end
