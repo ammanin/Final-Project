@@ -133,7 +133,7 @@ end
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
-post '/' do
+get '/' do
 =begin
   content_type :json
 
@@ -146,7 +146,7 @@ post '/' do
     403
   end
 =end
-
+translation_method
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -173,5 +173,6 @@ end
 private
 
 def square_of int
-  int * int
+  message = int * int
+  
 end
