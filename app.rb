@@ -67,9 +67,9 @@ enable :sessions
 #     See https://github.com/DanElbert/alexa_skills_ruby
 # ----------------------------------------------------------------------
 
-=begin
-class CustomHandler < AlexaSkillsRuby::Handler
 
+class CustomHandler < AlexaSkillsRuby::Handler
+=begin
   on_intent("GetCurrentStatus") do
     #slots = request.intent.slots
     
@@ -117,7 +117,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     logger.info 'Here processed'
     update_status "here"
   end
-
+=end
   on_intent("Translate") do
     slots = request.intent.slots
     puts slots.to_s
@@ -129,12 +129,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
 
 end
-=end
+
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
 post '/' do
-=begin
+
   content_type :json
 
   handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
@@ -145,12 +145,12 @@ post '/' do
     logger.error e.to_s
     403
   end
-=end
+
 
 end
 
 get '/' do
-   square_of 6
+   "hello"
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
