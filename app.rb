@@ -124,7 +124,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     trans_txt = (request.intent.slots["trans_txt"])
 	lang_input = (request.intent.slots["lang_input"])
 	
-	response.set_output_speech_text("You want me to translate #{trans_txt} to #{lang_input} and get #{trans_met("hello")")  
+	response.set_output_speech_text("You want me to translate #{trans_txt} to #{lang_input} and get #{trans_met("hello")}")  
     #response.set_simple_card("title", "content")
   end
 
