@@ -146,7 +146,7 @@ get '/' do
     403
   end
 =end
-translation_method
+square_of 6
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -173,6 +173,5 @@ end
 private
 
 def square_of int
-  message = int * int
-  
+  int * int
 end
