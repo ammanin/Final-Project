@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   translation_method("how are you")
+   square_of (6)
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
