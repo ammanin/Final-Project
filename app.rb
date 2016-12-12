@@ -146,7 +146,7 @@ get '/' do
     403
   end
 =end
-message = translation_method
+translation_method
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
