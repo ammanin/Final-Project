@@ -146,7 +146,7 @@ get '/' do
     403
   end
 =end
-translator.translate('Where are you going', :from => 'en', :to => 'es')
+message = translation_method
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -167,7 +167,7 @@ end
 #   Add any custom methods below
 # ----------------------------------------------------------------------
 def translation_method #(trans_txt,to_lang)
-	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+	translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 
 private
