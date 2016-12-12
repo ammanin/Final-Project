@@ -123,8 +123,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
-	translation_method()
-	response.set_output_speech_text("this in that is ola" )  
+	
+	response.set_output_speech_text("this is #{translation_method}" )  
     #response.set_simple_card("title", "content")
   end
 
@@ -165,9 +165,10 @@ end
 #   METHODS
 #   Add any custom methods below
 # ----------------------------------------------------------------------
-def translation_method() #(trans_txt,to_lang)
-	translator.translate('Where are you going', :from => 'en', :to => 'es')
+def translation_method #(trans_txt,to_lang)
+	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+	message.to_s
 end
-	
+
 private
 
