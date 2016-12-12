@@ -124,7 +124,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
 	
-	response.set_output_speech_text("#{square_of(6)}" )  
+	response.set_output_speech_text("#{square_of("hello there")}" )  
     #response.set_simple_card("title", "content")
   end
 
@@ -173,10 +173,8 @@ end
 
 
 private
-def translation_method
-	translator.translate('Where are you going', :from => 'en', :to => 'es')
-end
 
-def square_of inte
-  inte * inte
+
+def square_of trans_txt
+  translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
