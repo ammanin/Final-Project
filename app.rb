@@ -151,7 +151,7 @@ end
 
 get '/' do
 	
-	
+	trans_met 5
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
