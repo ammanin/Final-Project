@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+   message = translation_method
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
