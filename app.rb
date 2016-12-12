@@ -124,7 +124,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
 	
-	response.set_output_speech_text("this is it" )  
+	response.set_output_speech_text("#{square_of(6)}" )  
     #response.set_simple_card("title", "content")
   end
 
@@ -133,7 +133,7 @@ end
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
-get '/' do
+post '/' do
 =begin
   content_type :json
 
@@ -146,7 +146,7 @@ get '/' do
     403
   end
 =end
-message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -168,8 +168,10 @@ end
 # ----------------------------------------------------------------------
 def translation_method #(trans_txt,to_lang)
 	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
-	message.to_s
 end
 
 private
 
+def square_of int
+  int * int
+end
