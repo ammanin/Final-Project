@@ -34,7 +34,7 @@ enable :sessions
 
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 #translation API
-#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 
 
 #translate = Google::Apis::TranslateV2::TranslateService.new 
@@ -147,6 +147,7 @@ end
 =end
 
 get "/" do 
+=begin
 	bing_oauth_request = "https://slack.com/api/oauth.access"
     response = HTTParty.post bing_oauth_request, body: {client_id: ENV["MICROSOFT_CLIENT_ID"], client_secret: ENV["MICROSOFT_CLIENT_SECRET"], scope: "http://api.microsofttranslator.com", grant_type: "client_credentials"}
     puts response.to_s
@@ -160,10 +161,10 @@ get "/" do
   else
     401
   end
-
+=end
 	#headers = {"Authorization" => "Bearer #{get_access_token['token']}"}
 	#HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
-	#spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
+	spanish = translator.translate('Where are you going', :from => 'en', :to => 'es')
 end 
 
 
