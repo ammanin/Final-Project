@@ -1,3 +1,3 @@
-class Translation < ActiveRecord::Base
-	belongs_to :user
+class Language < ActiveRecord::Base
+
 end

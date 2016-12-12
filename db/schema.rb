@@ -10,44 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210170454) do
+ActiveRecord::Schema.define(version: 20161212062835) do
 
-  create_table "dailywords", force: :cascade do |t|
-    t.integer  "User_ID"
-    t.string   "Languages"
-    t.string   "Word"
-    t.string   "Traslation"
+  create_table "languages", force: :cascade do |t|
+    t.string   "lang"
+    t.string   "lang_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["id"], name: "index_dailywords_on_ID"
-  end
-
-  create_table "status_updates", force: :cascade do |t|
-    t.string   "type_name"
-    t.text     "message"
-    t.integer  "duration"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "translations", force: :cascade do |t|
-    t.integer  "User_ID"
-    t.string   "Languages"
-    t.string   "Phrase"
-    t.string   "Traslation"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["id"], name: "index_translations_on_ID"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.integer  "Phone"
-    t.string   "Name"
-    t.integer  "Points"
-    t.string   "Languages"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["id"], name: "index_users_on_ID"
   end
 
 end

@@ -20,8 +20,8 @@ configure :development do
 end
 
 #set :database, "sqlite3:db/smsilate_database.db"
-require_relative './models/user'
-require_relative './models/dailyword'
+#require_relative './models/user'
+#require_relative './models/dailyword'
 
 # require any models 
 # you add to the folder
