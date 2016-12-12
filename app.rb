@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'cgi'
 require 'uri'
 require 'net/http'
 require 'net/https'
@@ -143,8 +142,8 @@ class BingTranslator
       Time.now < @access_token['expires_at']
 
     params = {
-      'client_id' => CGI.escape(@client_id),
-      'client_secret' => CGI.escape(@client_secret),
+      'client_id' => ENV["MICROSOFT_CLIENT_ID"],
+      'client_secret' => ENV["MICROSOFT_CLIENT_SECRET"],
       'scope' => CGI.escape('http://api.microsofttranslator.com'),
       'grant_type' => 'client_credentials'
     }
