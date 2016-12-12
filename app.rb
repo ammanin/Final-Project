@@ -124,7 +124,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     trans_txt = (request.intent.slots["trans_txt"])
 	lang_input = (request.intent.slots["lang_input"])
 	
-	response.set_output_speech_text("#{trans_txt} in #{lang_input} is #{trans_met(trans_txt)}")  
+	response.set_output_speech_text("#{trans_txt} in #{lang_input} is #{trans_met(trans_txt, lang_input)}")  
     #response.set_simple_card("title", "content")
   end
 
@@ -177,7 +177,7 @@ end
 private
 
 
-def trans_met transtxt
+def trans_met transtxt, langinput
   translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
-  translator.translate(transtxt, :from => 'en', :to => 'es')
+  translator.translate(transtxt, :from => 'en', :to => langinput)
 end
