@@ -143,9 +143,7 @@ class BingTranslator
 
     params = {
       'client_id' => ENV["MICROSOFT_CLIENT_ID"],
-      'client_secret' => ENV["MICROSOFT_CLIENT_SECRET"],
-      'scope' => CGI.escape('http://api.microsofttranslator.com'),
-      'grant_type' => 'client_credentials'
+      'client_secret' => ENV["MICROSOFT_CLIENT_SECRET"]     
     }
 
     http = Net::HTTP.new(@access_token_uri.host, @access_token_uri.port)
