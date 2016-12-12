@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+   square_of "hello there"
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -176,5 +176,6 @@ private
 
 
 def square_of trans_txt
-  translator.translate('Where are you going', :from => 'en', :to => 'es')
+  message = translator.translate(trans_txt, :from => 'en', :to => 'es')
+  message
 end
