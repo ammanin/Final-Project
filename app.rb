@@ -61,19 +61,7 @@ end
 # enable sessions for this project
 enable :sessions
 
-post '/' do
-  content_type :json
 
-  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
-
-  begin
-    handler.handle(request.body.read)
-  rescue AlexaSkillsRuby::InvalidApplicationId => e
-    logger.error e.to_s
-    403
-  end
-
-end
 # ----------------------------------------------------------------------
 #     AlexaSkillsRuby Handler
 #     See https://github.com/DanElbert/alexa_skills_ruby
@@ -135,7 +123,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
-	#message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
 	response.set_output_speech_text("this in that is ola" )  
     #response.set_simple_card("title", "content")
   end
@@ -145,7 +133,19 @@ end
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
+post '/' do
+  content_type :json
 
+  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
+
+  begin
+    handler.handle(request.body.read)
+  rescue AlexaSkillsRuby::InvalidApplicationId => e
+    logger.error e.to_s
+    403
+  end
+
+end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
 
@@ -164,9 +164,6 @@ end
 #   METHODS
 #   Add any custom methods below
 # ----------------------------------------------------------------------
-
-# get_access_token example
-# Useful, e.g., for using bing_translator in a web application frontend
 
 private
 
