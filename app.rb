@@ -133,7 +133,7 @@ end
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
-get '/' do
+post '/' do
 =begin
   content_type :json
 
@@ -146,7 +146,11 @@ get '/' do
     403
   end
 =end
-square_of 6
+
+end
+
+get '/' do
+   square_of 6
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
