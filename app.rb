@@ -124,7 +124,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
 	
-	response.set_output_speech_text("#{translation_method()}" )  
+	response.set_output_speech_text("#{square_of(6)}" )  
     #response.set_simple_card("title", "content")
   end
 
@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   square_of(6)
+   message = translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -170,8 +170,8 @@ end
 #   METHODS
 #   Add any custom methods below
 # ----------------------------------------------------------------------
-def translation_method trans_txt
-	translator.translate(trans_text.to_s, :from => 'en', :to => 'es')
+def translation_method #(trans_txt,to_lang)
+	translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 
 private
