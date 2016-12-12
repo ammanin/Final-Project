@@ -145,7 +145,7 @@ post '/' do
     logger.error e.to_s
     403
   end
-message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+#message = translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
