@@ -74,9 +74,9 @@ enable :sessions
 #     See https://github.com/DanElbert/alexa_skills_ruby
 # ----------------------------------------------------------------------
 
-=begin
-class CustomHandler < AlexaSkillsRuby::Handler
 
+class CustomHandler < AlexaSkillsRuby::Handler
+=begin
   on_intent("GetCurrentStatus") do
     #slots = request.intent.slots
     
@@ -124,49 +124,18 @@ class CustomHandler < AlexaSkillsRuby::Handler
     logger.info 'Here processed'
     update_status "here"
   end
-
+=end
   on_intent("Translate") do
     slots = request.intent.slots
     puts slots.to_s
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
-	message = EasyTranslate.translate([translation_txt, :to => :language_input])
-    #translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "fr" + "&dt=t&q=" + URI.escape(translation)
-  
-	#response = HTTParty.get translate_url
-    #puts response.to_s
-    #response.to_s
+	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
 	response.set_output_speech_text("#{translation_txt} in #{language_input} is #{message}" )  
-	
-	
     #response.set_simple_card("title", "content")
-
   end
 
 end
-=end
-
-get "/" do 
-=begin
-	bing_oauth_request = "https://slack.com/api/oauth.access"
-    response = HTTParty.post bing_oauth_request, body: {client_id: ENV["MICROSOFT_CLIENT_ID"], client_secret: ENV["MICROSOFT_CLIENT_SECRET"], scope: "http://api.microsofttranslator.com", grant_type: "client_credentials"}
-    puts response.to_s
-    
-    # We can extract lots of information from this web hook... 
-    
-    access_token = response["access_token"]
-    token_type = response["token_type"]
-	expires_in = response["expires_in"]
-	scope = response["scope"]
-  else
-    401
-  end
-=end
-	#headers = {"Authorization" => "Bearer #{get_access_token['token']}"}
-	#HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
-	spanish = translator.translate('Where are you going', :from => 'en', :to => 'es')
-end 
-
 
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
@@ -174,7 +143,7 @@ end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
-=begin
+
 post '/' do
   content_type :json
 
@@ -188,7 +157,7 @@ post '/' do
   end
 
 end
-=end
+
 # ----------------------------------------------------------------------
 #     ERRORS
 # ----------------------------------------------------------------------
