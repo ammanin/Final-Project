@@ -34,7 +34,7 @@ enable :sessions
 
 client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 #translation API
-translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 
 
 # ----------------------------------------------------------------------
@@ -124,7 +124,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     trans_txt = (request.intent.slots["trans_txt"])
 	lang_input = (request.intent.slots["lang_input"])
 	
-	response.set_output_speech_text("You want me to translate #{trans_txt} to #{lang_input}")  
+	response.set_output_speech_text("You want me to translate #{trans_txt} to #{lang_input} and get #{trans_met("hello")")  
     #response.set_simple_card("title", "content")
   end
 
@@ -151,7 +151,7 @@ end
 
 get '/' do
 	
-	trans_met 5
+	" you get #{trans_met("hello")}"
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
@@ -178,6 +178,6 @@ private
 
 
 def trans_met transtxt
-  transtxt * transtxt
-  #translator.translate(transtxt, :from => 'en', :to => 'es')
+  translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+  translator.translate(transtxt, :from => 'en', :to => 'es')
 end
