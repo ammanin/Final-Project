@@ -170,12 +170,13 @@ end
 #   METHODS
 #   Add any custom methods below
 # ----------------------------------------------------------------------
-def translation_method #(trans_txt,to_lang)
+
+
+private
+def translation_method
 	translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 
-private
-
-def square_of int
-  int * int
+def square_of inte
+  inte * inte
 end
