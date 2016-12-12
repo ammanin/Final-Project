@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   message = translation_method()
+   translation_method("how are you")
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -170,8 +170,8 @@ end
 #   METHODS
 #   Add any custom methods below
 # ----------------------------------------------------------------------
-def translation_method #(trans_txt,to_lang)
-	translator.translate('Where are you going', :from => 'en', :to => 'es')
+def translation_method trans_txt
+	translator.translate(trans_text.to_s, :from => 'en', :to => 'es')
 end
 
 private
