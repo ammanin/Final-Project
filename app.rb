@@ -146,7 +146,7 @@ get '/' do
     403
   end
 =end
-translation_method
+translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
