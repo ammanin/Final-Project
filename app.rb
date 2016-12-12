@@ -121,10 +121,10 @@ class CustomHandler < AlexaSkillsRuby::Handler
   on_intent("Translate") do
     slots = request.intent.slots
     puts slots.to_s
-    translation = (request.intent.slots["trans_txt"] )
-	language = (request.intent.slots["lang_input"] )
+    trans_txt = (request.intent.slots["trans_txt"])
+	lang_input = (request.intent.slots["lang_input"])
 	
-	response.set_output_speech_text("You want me to translate #{translation} to #{langauge}")  
+	response.set_output_speech_text("You want me to translate #{trans_txt} to #{lang_input}")  
     #response.set_simple_card("title", "content")
   end
 
@@ -149,8 +149,7 @@ post '/' do
 
 end
 
-get '/' do
-end
+
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
 
