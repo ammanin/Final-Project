@@ -16,12 +16,6 @@ gem 'iso8601'
 gem 'ruby_gem'
 gem 'bing_translator'
 gem 'httparty'
-gem 'uri'
-gem 'net/http'
-gem 'net/https'
-gem 'nokogiri'
-gem 'json'
-gem 'savon'
 # to avoid installing postgres use 
 # bundle install --without production
 

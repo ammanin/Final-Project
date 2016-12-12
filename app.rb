@@ -1,222 +1,209 @@
-require 'rubygems'
-require 'uri'
-require 'net/http'
-require 'net/https'
-require 'nokogiri'
+require "sinatra"
 require 'json'
-require 'savon'
+require 'sinatra/activerecord'
+require 'twilio-ruby'
+require 'alexa_skills_ruby'
+require 'rake'
+require 'haml'
+require 'iso8601'
+require 'ruby_gem'
+require 'bing_translator'
+require 'httparty'
 
-class BingTranslator
-  WSDL_URI = 'http://api.microsofttranslator.com/V2/soap.svc?wsdl'
-  NAMESPACE_URI = 'http://api.microsofttranslator.com/V2'
-  ACCESS_TOKEN_URI = 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13'
-  DATASETS_URI = "https://api.datamarket.azure.com/Services/My/Datasets?$format=json"
+# ----------------------------------------------------------------------
 
-  class Exception < StandardError; end
-  class AuthenticationException < StandardError; end
+# Load environment variables using Dotenv. If a .env file exists, it will
+# set environment variables from that file (useful for dev environments)
+configure :development do
+  require 'dotenv'
+  Dotenv.load
+end
 
-  def initialize(client_id, client_secret, skip_ssl_verify = false, account_key = nil)
-    @client_id = client_id
-    @client_secret = client_secret
-    @account_key = account_key
-    @skip_ssl_verify = skip_ssl_verify
+#set :database, "sqlite3:db/smsilate_database.db"
+require_relative './models/user'
+require_relative './models/dailyword'
 
-    @access_token_uri = URI.parse ACCESS_TOKEN_URI
-    @datasets_uri = URI.parse DATASETS_URI
+# require any models 
+# you add to the folder
+# using the following syntax:
+# require_relative './models/<model_name>'
+
+
+# enable sessions for this project
+enable :sessions
+
+client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+#translation API
+#translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
+
+
+#translate = Google::Apis::TranslateV2::TranslateService.new 
+#EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
+#result = translate.list_translations('Hello world!', 'es', source: 'en')
+#puts result.translations.first.translated_text
+#translator = MicrosoftTranslator::Client.new ENV["MICROSOFT_TRANSLATE_ID"], ENV["MICROSOFT_TRANSLATE_TOKEN"]
+#('your_client_id', 'your_client_secret')
+#Translation
+# ----------------------------------------------------------------------
+#     ROUTES, END POINTS AND ACTIONS
+# ----------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------
+#     ERRORS
+# ----------------------------------------------------------------------
+
+
+
+get "/send_sms" do
+	client.account.messages.create(
+	:from => ENV["TWILIO_NUMBER"],
+	:to => "+14129548714",
+	:body => "Knock Knock!"
+	)
+	"Send Message"
+end
+
+
+# enable sessions for this project
+enable :sessions
+
+
+# ----------------------------------------------------------------------
+#     AlexaSkillsRuby Handler
+#     See https://github.com/DanElbert/alexa_skills_ruby
+# ----------------------------------------------------------------------
+
+=begin
+class CustomHandler < AlexaSkillsRuby::Handler
+
+  on_intent("GetCurrentStatus") do
+    #slots = request.intent.slots
+    
+    current_status = StatusUpdate.all.last.message
+    
+    response.set_output_speech_text("It looks like: #{current_status} ")
+    #response.set_simple_card("title", "content")
+    logger.info 'GetCurrentStatus processed'
+    
+  end
+  
+  on_intent("AMAZON.HelpIntent") do
+    #slots = request.intent.slots
+    response.set_output_speech_text("You can ask me to tell you the current out of office status by saying current status. You can update your stats by saying tell out of office i'll be right back, i've gone home, i'm in a meeting, i'm here or i'll be back in 10 minutes")
+    #response.set_simple_card("title", "content")
+    logger.info 'GetCurrentStatus processed'
+    
+  end
+  
+  on_intent("BeRightBack") do
+    response.set_output_speech_text("I've updated your status to be right back ")
+    #response.set_simple_card("title", "content")
+    logger.info 'BeRightBack processed'
+    update_status "brb"
+  end
+  
+  on_intent("GoneHome") do
+    response.set_output_speech_text("I've updated your status to Gone Home ")
+    #response.set_simple_card("title", "content")
+    logger.info 'GoneHome processed'
+    update_status "home"
+  end
+  
+  on_intent("InAMeeting") do
+    response.set_output_speech_text("I've updated your status to In a meeting ")
+    #response.set_simple_card("title", "content")
+    logger.info 'InAMeeting processed'
+    update_status "meeting"
+  end
+  
+  
+  on_intent("Here") do
+    response.set_output_speech_text("I've updated your status to Here ")
+    #response.set_simple_card("Out of Office App", "Status is now.")
+    logger.info 'Here processed'
+    update_status "here"
   end
 
-  def translate(text, params = {})
-    raise "Must provide :to." if params[:to].nil?
+  on_intent("Translate") do
+    slots = request.intent.slots
+    puts slots.to_s
+    translation_txt = (request.intent.slots["translation"] )
+	language_input = (request.intent.slots["language"] )
+	message = EasyTranslate.translate([translation_txt, :to => :language_input])
+    #translate_url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + "en" + "&tl=" + "fr" + "&dt=t&q=" + URI.escape(translation)
+  
+	#response = HTTParty.get translate_url
+    #puts response.to_s
+    #response.to_s
+	response.set_output_speech_text("#{translation_txt} in #{language_input} is #{message}" )  
+	
+	
+    #response.set_simple_card("title", "content")
 
-    # Important notice: param order makes sense in SOAP. Do not reorder or delete!
-    params = {
-      'text'        => text.to_s,
-      'from'        => params[:from].to_s,
-      'to'          => params[:to].to_s,
-      'category'    => 'general',
-      'contentType' => params[:content_type] || 'text/plain'
-    }
-
-    result(:translate, params)
   end
 
-  def translate_array(texts, params = {})
-    raise "Must provide :to." if params[:to].nil?
+end
+=end
 
-    # Important notice: param order makes sense in SOAP. Do not reorder or delete!
-    params = {
-      'texts'       => { 'arr:string' => texts },
-      'from'        => params[:from].to_s,
-      'to'          => params[:to].to_s,
-      'category'    => 'general',
-      'contentType' => params[:content_type] || 'text/plain'
-    }
-
-    array_wrap(result(:translate_array, params)[:translate_array_response]).map{|r| r[:translated_text]}
+get "/" do 
+	bing_oauth_request = "https://slack.com/api/oauth.access"
+    response = HTTParty.post bing_oauth_request, body: {client_id: ENV["MICROSOFT_CLIENT_ID"], client_secret: ENV["MICROSOFT_CLIENT_SECRET"], scope: "http://api.microsofttranslator.com", grant_type: "client_credentials"}
+    puts response.to_s
+    
+    # We can extract lots of information from this web hook... 
+    
+    access_token = response["access_token"]
+    token_type = response["token_type"]
+	expires_in = response["expires_in"]
+	scope = response["scope"]
+  else
+    401
   end
 
- def translate_array2(texts, params = {})
-    raise "Must provide :to." if params[:to].nil?
+	#headers = {"Authorization" => "Bearer #{get_access_token['token']}"}
+	#HTTParty.post("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13", :headers => headers)
+	#spanish = translator.translate('What is up brother', :from => 'en', :to => 'es')
+end 
 
-    # Important notice: param order makes sense in SOAP. Do not reorder or delete!
-    params = {
-      'texts'       => { 'arr:string' => texts },
-      'from'        => params[:from].to_s,
-      'to'          => params[:to].to_s,
-      'category'    => 'general',
-      'contentType' => params[:content_type] || 'text/plain'
-    }
 
-    array_wrap(result(:translate_array2, params)[:translate_array2_response]).map{|r| [r[:translated_text], r[:alignment]]}
+# ----------------------------------------------------------------------
+#     ROUTES, END POINTS AND ACTIONS
+# ----------------------------------------------------------------------
+
+# THE APPLICATION ID CAN BE FOUND IN THE 
+
+=begin
+post '/' do
+  content_type :json
+
+  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
+
+  begin
+    handler.handle(request.body.read)
+  rescue AlexaSkillsRuby::InvalidApplicationId => e
+    logger.error e.to_s
+    403
   end
 
+end
+=end
+# ----------------------------------------------------------------------
+#     ERRORS
+# ----------------------------------------------------------------------
 
-  def detect(text)
-    params = {
-      'text'     => text.to_s,
-      'language' => '',
-    }
 
-    result(:detect, params).to_sym
-  end
+error 401 do 
+  "Not allowed!!!"
+end
 
-  # format:   'audio/wav' [default] or 'audio/mp3'
-  # language: valid translator language code
-  # options:  'MinSize' [default] or 'MaxQuality'
-  def speak(text, params = {})
-    raise "Must provide :language" if params[:language].nil?
+# ----------------------------------------------------------------------
+#   METHODS
+#   Add any custom methods below
+# ----------------------------------------------------------------------
 
-    params = {
-      'text'     => text.to_s,
-      'language' => params[:language].to_s,
-      'format'   => params[:format] || 'audio/wav',
-      'options'  => params[:options] || 'MinSize',
-    }
-
-    uri = URI.parse(result(:speak, params))
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    if uri.scheme == "https"
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @skip_ssl_verify
-    end
-    results = http.get(uri.to_s, {'Authorization' => "Bearer #{get_access_token['access_token']}"})
-
-    if results.response.code.to_i == 200
-      results.body
-    else
-      html = Nokogiri::HTML(results.body)
-      raise Exception, html.xpath("//text()").remove.map(&:to_s).join(' ')
-    end
-  end
-
-  def supported_language_codes
-    result(:get_languages_for_translate)[:string]
-  end
-
-  def language_names(codes, locale = 'en')
-    response = result(:get_language_names, locale: locale, languageCodes: {'a:string' => codes}) do
-      attributes 'xmlns:a' => 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
-    end
-
-    response[:string]
-  end
-
-  def balance
-    datasets["d"]["results"].each do |result|
-      return result["ResourceBalance"] if result["ProviderName"] == "Microsoft Translator"
-    end
-  end
-
-  # Get a new access token and set it internally as @access_token
-  #
-  # Microsoft changed up how you get access to the Translate API.
-  # This gets a new token if it's required. We call this internally
-  # before any request we make to the Translate API.
-  #
-  # @return {hash}
-  # Returns existing @access_token if we don't need a new token yet,
-  # or returns the one just obtained.
-  def get_access_token
-    return @access_token if @access_token and @access_token['expires_at'] and
-      Time.now < @access_token['expires_at']
-
-    params = {
-      'client_id' => ENV["MICROSOFT_CLIENT_ID"],
-      'client_secret' => ENV["MICROSOFT_CLIENT_SECRET"]     
-    }
-
-    http = Net::HTTP.new(@access_token_uri.host, @access_token_uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @skip_ssl_verify
-
-    response = http.post(@access_token_uri.path, prepare_param_string(params))
-    @access_token = JSON.parse(response.body)
-    raise AuthenticationException, @access_token['error'] if @access_token["error"]
-    @access_token['expires_at'] = Time.now + @access_token['expires_in'].to_i
-    @access_token
-  end
+# get_access_token example
+# Useful, e.g., for using bing_translator in a web application frontend
 
 private
-  def datasets
-    raise AuthenticationException, "Must provide account key" if @account_key.nil?
 
-    http = Net::HTTP.new(@datasets_uri.host, @datasets_uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    request = Net::HTTP::Get.new(@datasets_uri.request_uri)
-    request.basic_auth("", @account_key)
-    response = http.request(request)
-
-    JSON.parse response.body
-  end
-
-  def prepare_param_string(params)
-    params.map { |key, value| "#{key}=#{value}" }.join '&'
-  end
-
-  # Public: performs actual request to Bing Translator SOAP API
-  def result(action, params = {}, &block)
-    # Specify SOAP namespace in tag names (see https://github.com/savonrb/savon/issues/340 )
-    params = Hash[params.map{|k,v| ["v2:#{k}", v]}]
-    begin
-      soap_client.call(action, message: params, &block).body[:"#{action}_response"][:"#{action}_result"]
-    rescue AuthenticationException
-      raise
-    rescue StandardError => e
-      # Keep old behaviour: raise only internal Exception class
-      raise Exception, e.message
-    end
-  end
-
-  # Private: Constructs SOAP client
-  #
-  # Construct and store new client when called first time.
-  # Return stored client while access token is fresh.
-  # Construct and store new client when token have been expired.
-  def soap_client
-    return @client if @client and @access_token and @access_token['expires_at'] and
-      Time.now < @access_token['expires_at']
-
-    @client = Savon.client(
-      wsdl: WSDL_URI,
-      namespace: NAMESPACE_URI,
-      namespace_identifier: :v2,
-      namespaces: {
-        'xmlns:arr' =>  'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
-      },
-      headers: {'Authorization' => "Bearer #{get_access_token['access_token']}"},
-    )
-  end
-
-  # Private: Array#wrap based on ActiveSupport extension
-  def array_wrap(object)
-    if object.nil?
-      []
-    elsif object.respond_to?(:to_ary)
-      object.to_ary || [object]
-    else
-      [object]
-    end
-  end
-end
