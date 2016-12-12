@@ -123,7 +123,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     puts slots.to_s
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
-	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
+	
 	response.set_output_speech_text("this in that is ola" )  
     #response.set_simple_card("title", "content")
   end
@@ -134,6 +134,7 @@ end
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
 post '/' do
+  
   content_type :json
 
   handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
@@ -144,7 +145,7 @@ post '/' do
     logger.error e.to_s
     403
   end
-
+message = translator.translate('Where are you going', :from => 'en', :to => 'es')
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
@@ -165,5 +166,6 @@ end
 #   Add any custom methods below
 # ----------------------------------------------------------------------
 
+	
 private
 
