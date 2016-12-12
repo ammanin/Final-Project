@@ -150,7 +150,7 @@ post '/' do
 end
 
 get '/' do
-   square_of (6)
+   square_of(6)
 end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
