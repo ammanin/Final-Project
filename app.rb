@@ -150,8 +150,8 @@ post '/' do
 end
 
 get '/' do
-	transtxt = "hello there"
-	translator.translate(transtxt, :from => 'en', :to => 'es')
+	
+	
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
@@ -178,5 +178,6 @@ private
 
 
 def trans_met transtxt
-  translator.translate(transtxt, :from => 'en', :to => 'es')
+  transtxt * transtxt
+  #translator.translate(transtxt, :from => 'en', :to => 'es')
 end
