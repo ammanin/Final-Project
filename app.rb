@@ -150,7 +150,8 @@ post '/' do
 end
 
 get '/' do
-	trans_met "hello there"
+	transtxt = "hello there"
+	translator.translate(transtxt, :from => 'en', :to => 'es')
 end
 
 # THE APPLICATION ID CAN BE FOUND IN THE 
