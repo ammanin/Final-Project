@@ -37,13 +37,6 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 translator = BingTranslator.new(ENV["MICROSOFT_CLIENT_ID"], ENV["MICROSOFT_CLIENT_SECRET"])
 
 
-#translate = Google::Apis::TranslateV2::TranslateService.new 
-#EasyTranslate.api_key = ENV["GOOGLE_TRANSLATE_ID"]
-#result = translate.list_translations('Hello world!', 'es', source: 'en')
-#puts result.translations.first.translated_text
-#translator = MicrosoftTranslator::Client.new ENV["MICROSOFT_TRANSLATE_ID"], ENV["MICROSOFT_TRANSLATE_TOKEN"]
-#('your_client_id', 'your_client_secret')
-#Translation
 # ----------------------------------------------------------------------
 #     ROUTES, END POINTS AND ACTIONS
 # ----------------------------------------------------------------------
@@ -68,7 +61,19 @@ end
 # enable sessions for this project
 enable :sessions
 
+post '/' do
+  content_type :json
 
+  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
+
+  begin
+    handler.handle(request.body.read)
+  rescue AlexaSkillsRuby::InvalidApplicationId => e
+    logger.error e.to_s
+    403
+  end
+
+end
 # ----------------------------------------------------------------------
 #     AlexaSkillsRuby Handler
 #     See https://github.com/DanElbert/alexa_skills_ruby
@@ -131,7 +136,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     translation_txt = (request.intent.slots["translation"] )
 	language_input = (request.intent.slots["language"] )
 	message = translator.translate('Where are you going', :from => 'en', :to => 'es')
-	response.set_output_speech_text("#{translation_txt} in #{language_input} is #{message}" )  
+	response.set_output_speech_text("this in that is ola" )  
     #response.set_simple_card("title", "content")
   end
 
@@ -144,19 +149,7 @@ end
 # THE APPLICATION ID CAN BE FOUND IN THE 
 
 
-post '/' do
-  content_type :json
 
-  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
-
-  begin
-    handler.handle(request.body.read)
-  rescue AlexaSkillsRuby::InvalidApplicationId => e
-    logger.error e.to_s
-    403
-  end
-
-end
 
 # ----------------------------------------------------------------------
 #     ERRORS
